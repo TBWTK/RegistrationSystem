@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using RegistrationSystem.Core;
 using RegistrationSystem.Model;
 
@@ -11,27 +16,91 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
 
     class HandlerPatchingUsers : ObservableObjects
     {
+        public RelayCommand DownloadImage { get; set; }
+        public RelayCommand RegisterUpdate { get; set; }
+
+
+        private string _employeesFilter = string.Empty;
         public List<Users> users { get; set; }
+        public List<Genders> genders { get; set; }
+        public List<Statuses> statuses { get; set; }
+        public List<Roles> roles { get; set; }
+
 
         public ICollectionView EmployeesCollectionView { get; }
 
         public HandlerPatchingUsers()
         {
-            users = new List<Users>();
-            users.Add(new Users() { Name = "Наруто", LastName = "Фамилия1" });
-            users.Add(new Users() { Name = "Имя2", LastName = "Фамилия2" });
-            users.Add(new Users() { Name = "Имя3", LastName = "Фамилия3" });
-            users.Add(new Users() { Name = "Имя4", LastName = "Фамилия4" });
-            users.Add(new Users() { Name = "Саске", LastName = "Фамилия5" });
+            image = new Image();
+            using (var context = new TestDataBaseEntities())
+            {
+                users = context.Users.ToList();
+                genders = context.Genders.ToList();
+                statuses = context.Statuses.ToList();
+                roles = context.Roles.ToList();
+            }
+
 
             EmployeesCollectionView = CollectionViewSource.GetDefaultView(users);
-
             EmployeesCollectionView.Filter = FilterEmployees;
-            EmployeesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Users.Name)));
-            EmployeesCollectionView.SortDescriptions.Add(new SortDescription(nameof(Users.LastName), ListSortDirection.Ascending));
+            EmployeesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Users.Login)));
+            EmployeesCollectionView.SortDescriptions.Add(new SortDescription(nameof(Users.Login), ListSortDirection.Ascending));
+
+            DownloadImage = new RelayCommand(o =>
+            {
+                //BitmapImage myBitmapImage = new BitmapImage();
+                //myBitmapImage.BeginInit();
+                //OpenFileDialog ofdPicture = new OpenFileDialog();
+                //ofdPicture.Filter =
+                //    "Image files|*.bmp;*.jpg;*.JPG;*.gif;*.png;*.tif|All files|*.*";
+                //ofdPicture.FilterIndex = 1;
+                //
+                //if (ofdPicture.ShowDialog() == true)
+                //{
+                //    myBitmapImage.UriSource = new Uri(ofdPicture.FileName);
+                //    myBitmapImage.EndInit();
+                //    image.Source = myBitmapImage;
+                //}
+            });
+
+            RegisterUpdate = new RelayCommand(o =>
+            {
+                using (var context = new TestDataBaseEntities())
+                {
+                    var us = context.Users.SingleOrDefault(x => x.Id == NodeCategoryUser.Id);
+                    if (us != null)
+                    {
+                        us.Name = NodeCategoryUser.Name;
+                        us.SurName = NodeCategoryUser.SurName;
+                        us.LastName = NodeCategoryUser.LastName;
+                        if(NodeCategoryRoles != null)
+                            us.Role = NodeCategoryRoles.Id;
+                        if(NodeCategoryGender != null)
+                            us.Gender = NodeCategoryGender.Id;
+                        if(NodeCategoryStatuses != null)
+                            us.Status = NodeCategoryStatuses.Id;
+                        context.Entry(us).State = EntityState.Modified;
+                        context.SaveChanges();
+                        System.Windows.MessageBox.Show("Изменения прошли успешно");
+                    }
+                    users = context.Users.ToList();
+
+                }
+            });
+
         }
 
-        private string _employeesFilter = string.Empty;
+        private Image _image;
+        public Image image
+        {
+            get => _image;
+            set
+            {
+                _image = value;
+                //NodeCategoryUser.PhotoUser = getJPGFromImageControl(image as BitmapImage);
+            }
+        }
+
         public string EmployeesFilter
         {
             get
@@ -41,7 +110,7 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
             set
             {
                 _employeesFilter = value;
-                OnPropertyChanged(nameof(EmployeesFilter));
+                OnPropertyChanged("EmployeesFilter");
                 EmployeesCollectionView.Refresh();
             }
         }
@@ -50,12 +119,15 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
         {
             if (obj is Users employeeViewModel)
             {
-                return employeeViewModel.Name.Contains(EmployeesFilter) ||
-                    employeeViewModel.LastName.Contains(EmployeesFilter);
+                if (employeeViewModel.Name == null || employeeViewModel.LastName == null || employeeViewModel.SurName == null || employeeViewModel.Role == null || employeeViewModel.Gender == null || employeeViewModel.Status == null)
+                    return employeeViewModel.Login.Contains(EmployeesFilter);
+                else
+                    return employeeViewModel.Login.Contains(EmployeesFilter) || employeeViewModel.Name.Contains(EmployeesFilter) ||
+                    employeeViewModel.LastName.Contains(EmployeesFilter) || employeeViewModel.SurName.Contains(EmployeesFilter);
             }
-
             return false;
         }
+
 
         private Users _NodeCategoryUser { get; set; }
         public Users NodeCategoryUser
@@ -64,33 +136,123 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
             set
             {
                 _NodeCategoryUser = value;
+                if (NodeCategoryUser.Gender != null)
+                    UserGender = NodeCategoryUser.Genders.NameGender;
+                else
+                    UserGender = "";
+                
+                if (NodeCategoryUser.Role != null)
+                    UserRole = NodeCategoryUser.Roles.NameRole;
+                else
+                    UserRole = "";
+                
+                if (NodeCategoryUser.Status != null)
+                    UserStatus = NodeCategoryUser.Statuses.NameStatus;
+                else
+                    UserStatus = "";
+
+
                 OnPropertyChanged("NodeCategoryUser");
             }
         }
 
-
-
-        private string _Name { get; set; }
-        public string Name
+        private Genders _NodeCategoryGender { get; set; }
+        public Genders NodeCategoryGender
         {
-            get { return _Name; }
+            get => _NodeCategoryGender;
             set
             {
-                _Name = value;
-                OnPropertyChanged("Name");
+                _NodeCategoryGender = value;
+                NodeCategoryUser.Gender = NodeCategoryGender.Id;
+                UserGender = NodeCategoryGender.NameGender;
+                OnPropertyChanged("NodeCategoryGender");
             }
         }
 
-        private string _LastName { get; set; }
-
-        public string LastName
+        private Roles _NodeCategoryRoles { get; set; }
+        public Roles NodeCategoryRoles
         {
-            get { return _LastName; }
+            get => _NodeCategoryRoles;
             set
             {
-                _LastName = value;
-                OnPropertyChanged("LastName");
+                _NodeCategoryRoles = value;
+                UserRole = _NodeCategoryRoles.NameRole;
+                NodeCategoryUser.Role = NodeCategoryRoles.Id;
+
+                OnPropertyChanged("NodeCategoryRoles");
             }
+        }
+
+        private Statuses _NodeCategoryStatuses { get; set; }
+        public Statuses NodeCategoryStatuses
+        {
+            get => _NodeCategoryStatuses;
+            set
+            {
+                _NodeCategoryStatuses = value;
+                NodeCategoryUser.Status = NodeCategoryStatuses.Id;
+                UserStatus = _NodeCategoryStatuses.NameStatus;
+                OnPropertyChanged("NodeCategoryStatuses");
+            }
+        }
+
+        private string _UserGender { get; set; }
+        public string UserGender
+        {
+            get
+            {
+                return _UserGender;
+            }
+            set
+            {
+                _UserGender = value;
+                OnPropertyChanged("UserGender");
+            }
+        }
+        private string _UserRole { get; set; }
+        public string UserRole
+        {
+            get
+            {
+                return _UserRole;
+            }
+            set
+            {
+                _UserRole = value;
+                OnPropertyChanged("UserRole");
+            }
+        }
+        private string _UserStatus { get; set; }
+        public string UserStatus
+        {
+            get
+            {
+                return _UserStatus;
+            }
+            set
+            {
+                _UserStatus = value;
+                OnPropertyChanged("UserStatus");
+            }
+        }
+
+
+        public Image byteArrayToImage(byte[] byteArray)
+        {
+            Image image = new Image();
+            using (MemoryStream stream = new MemoryStream(byteArray))
+            {
+                image.Source = BitmapFrame.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+            }
+            return image;
+        }
+        public byte[] getJPGFromImageControl(BitmapImage imageC)
+        {
+            MemoryStream memStream = new MemoryStream();
+            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(imageC));
+            encoder.Save(memStream);
+            return memStream.ToArray();
         }
     }
 }

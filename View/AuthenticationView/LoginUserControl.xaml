@@ -6,30 +6,47 @@
              xmlns:local="clr-namespace:RegistrationSystem.View.AuthenticationView"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="500">
-    
-    <Border Background="White" CornerRadius="20">
-
-        <StackPanel Margin="50 50 40 50">
-
-            <TextBlock Text="Введите логин" Style="{StaticResource styleTextBlock}" HorizontalAlignment="Center" Margin="10"/>
-            <Border Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="320" HorizontalAlignment="Left">
-                <TextBox Style="{StaticResource styleTextBox}" Margin="5" VerticalAlignment="Center"  />
-            </Border>
-
-            <TextBlock Text="Введите пароль" Style="{StaticResource styleTextBlock}" HorizontalAlignment="Center" Margin="10"/>
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <Border Background="WhiteSmoke"  CornerRadius="10" Height="40" HorizontalAlignment="Center">
-                    <Grid Width="320">
-                        <PasswordBox x:Name="PassPassBox" Style="{StaticResource stylePasswordBox}" Margin="5" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="PassTextBlock" Style="{StaticResource styleTextBlock}" Margin="5" Visibility="Hidden"/>
-                    </Grid>
+    <Grid>
+        <Border Background="White" CornerRadius="20" x:Name="BorderLogin">
+            <StackPanel Margin="50 50 40 50">
+                <TextBlock Text="Введите логин" Style="{StaticResource styleTextBlock}" HorizontalAlignment="Center" Margin="10"/>
+                <Border Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="320" HorizontalAlignment="Left">
+                    <TextBox x:Name="LoginTextBox" Style="{StaticResource styleTextBox}" Margin="5" VerticalAlignment="Center"  />
                 </Border>
-                <Button Width="40" Height="40" Style="{StaticResource styleButton}" Background="White" Margin="5 0 0 0" PreviewMouseLeftButtonDown="CheckPassword" PreviewMouseLeftButtonUp="UnCheckPassword">
-                    <Image Source="Image/lock.png"/>
-                </Button>
-            </StackPanel>
 
-            <Button Style="{StaticResource styleButton}" Content="Вход" HorizontalAlignment="Center" Width="100" Height="40" Margin="20" Click="EnterSystem"/>
-        </StackPanel>
-    </Border>
+                <TextBlock Text="Введите пароль" Style="{StaticResource styleTextBlock}" HorizontalAlignment="Center" Margin="10"/>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Border Background="WhiteSmoke"  CornerRadius="10" Height="40" HorizontalAlignment="Center">
+                        <Grid Width="320">
+                            <PasswordBox x:Name="PassPassBox" Style="{StaticResource stylePasswordBox}" Margin="5" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="PassTextBlock" Style="{StaticResource styleTextBlock}" Margin="5" Visibility="Hidden"/>
+                        </Grid>
+                    </Border>
+                    <Button Width="40" Height="40" Style="{StaticResource styleButton}" Background="White" Margin="5 0 0 0" PreviewMouseLeftButtonDown="CheckPassword" PreviewMouseLeftButtonUp="UnCheckPassword">
+                        <Image Source="Image/lock.png"/>
+                    </Button>
+                </StackPanel>
+
+                <Button Style="{StaticResource styleButton}" Content="Вход" HorizontalAlignment="Center" Width="100" Height="40" Margin="20" Click="EnterSystem"/>
+            </StackPanel>
+        </Border>
+
+        <Border Background="White" CornerRadius="20" Visibility="Hidden" x:Name="BorderCaptcha">
+            <StackPanel Margin="50 150 50 150">
+                <StackPanel Orientation="Horizontal" Margin="10"  Width="320">
+                    <Border Background="WhiteSmoke" CornerRadius="10" Height="40" Width="270">
+                        <TextBlock x:Name="CapthaTextBlock" Style="{StaticResource styleTextBlock}" Margin="5"/>
+                    </Border>
+                    <Button x:Name="UpdateCaptha" Click="UpdateCaptha_Click" Width="40" Height="40" Margin="5 0 0 0" Style="{StaticResource styleButton}" Background="White">
+                        <Image Source="Image/reload.png"/>
+                    </Button>
+                </StackPanel>
+                <Border Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="320">
+                    <TextBox x:Name="CapthaTextBox" Margin="5" Style="{StaticResource styleTextBox}"/>
+                </Border>
+                <Button x:Name="CheckCaptcha" Click="CheckCaptcha_Click" Content="Проверка" Height="40" Width="125" Style="{StaticResource styleButton}" Margin="10"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
 </UserControl>

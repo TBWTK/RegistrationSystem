@@ -12,21 +12,18 @@ namespace RegistrationSystem.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class Roles
     {
-        public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Name { get; set; }
-        public string SurName { get; set; }
-        public string LastName { get; set; }
-        public Nullable<int> Role { get; set; }
-        public Nullable<int> Gender { get; set; }
-        public Nullable<int> Status { get; set; }
-        public byte[] PhotoUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Roles()
+        {
+            this.Users = new HashSet<Users>();
+        }
     
-        public virtual Genders Genders { get; set; }
-        public virtual Roles Roles { get; set; }
-        public virtual Statuses Statuses { get; set; }
+        public int Id { get; set; }
+        public string NameRole { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Users> Users { get; set; }
     }
 }

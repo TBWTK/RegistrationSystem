@@ -8,11 +8,11 @@
              d:DesignHeight="600" d:DesignWidth="500">
     <Border CornerRadius="20" Background="White">
 
-        <StackPanel Orientation="Vertical" Margin="50">
+        <StackPanel Orientation="Vertical" Margin="50 50 40 50">
 
             <TextBlock Text="Введите логин" Style="{StaticResource styleTextBlock}" HorizontalAlignment="Center" Margin="10"/>
             <Border Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="320" HorizontalAlignment="Left">
-                <TextBox Style="{StaticResource styleTextBox}" Margin="5" VerticalAlignment="Center"  />
+                <TextBox x:Name="LoginTextBox" Style="{StaticResource styleTextBox}" Margin="5" VerticalAlignment="Center"  />
             </Border>
 
 

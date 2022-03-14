@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using RegistrationSystem.View.MainView.Account;
 using RegistrationSystem.View.MainView.AdminPatchingUsers;
-
+using RegistrationSystem.Model;
 
 namespace RegistrationSystem.View.MainView
 {
@@ -10,15 +10,20 @@ namespace RegistrationSystem.View.MainView
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        int idUser;
+
+        public MainWindow(int ID)
         {
+            idUser = ID;
             InitializeComponent();
-            PageChange.Content = new PersonalAccountUserControl();
+            //if (users.Role != 1)
+            //    AdminPButtonUsers.Visibility = Visibility.Hidden;
+            PageChange.Content = new PersonalAccountUserControl(idUser);
         }
 
         private void AccountPageChange(object sender, RoutedEventArgs e)
         {
-            PageChange.Content = new PersonalAccountUserControl();
+            PageChange.Content = new PersonalAccountUserControl(idUser);
         }
 
         private void PatchingUsersPage(object sender, RoutedEventArgs e)
