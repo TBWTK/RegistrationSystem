@@ -1,20 +1,33 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using RegistrationSystem.View.MainView;
-using RegistrationSystem.Model;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Threading;
+using RegistrationSystem.Model;
 
 
 namespace RegistrationSystem.View.AuthenticationView
 {
-    public partial class RegistrationUserControl : UserControl
+    public partial class RegistrationWindow : Window
     {
-        public RegistrationUserControl()
+        int tick = 0;
+        Point now = new Point(0, 0);
+        DispatcherTimer timer = new DispatcherTimer();
+
+        public RegistrationWindow()
         {
             InitializeComponent();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += new EventHandler(Timer_Tick);
+            timer.Start();
         }
+
         private void CheckPasswordOne(object sender, MouseButtonEventArgs e)
         {
             PassTextBlockOne.Text = PassPassBoxOne.Password.Trim();
@@ -45,7 +58,7 @@ namespace RegistrationSystem.View.AuthenticationView
 
         private void RegistrationSystem(object sender, RoutedEventArgs e)
         {
-            if(PassPassBoxOne.Password != null && PassPassBoxTwo.Password != null && (PassPassBoxOne.Password == PassPassBoxTwo.Password))
+            if (PassPassBoxOne.Password != "" && PassPassBoxTwo.Password != "" && (PassPassBoxOne.Password == PassPassBoxTwo.Password) && LoginTextBox.Text != "")
             {
                 using (var context = new TestDataBaseEntities())
                 {
@@ -60,7 +73,7 @@ namespace RegistrationSystem.View.AuthenticationView
                     var us = context.Users.SingleOrDefault(x => x.Login == LoginTextBox.Text);
                     if (us != null)
                     {
-                        MainWindow mainWindow = new MainWindow(us.Id);
+                        MainView.MainWindow mainWindow = new MainView.MainWindow(us.Id);
                         mainWindow.Show();
                         Application.Current.MainWindow.Close();
                     }
@@ -68,8 +81,47 @@ namespace RegistrationSystem.View.AuthenticationView
             }
             else
             {
-                MessageBox.Show("Для прохождения успешной регистрации введите два раза одинаковый пароль!");
+                MessageBox.Show("Для прохождения успешной регистрации введите правильные данные!");
             }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            ++tick;
+            if (tick == 20)
+            {
+                timer.Stop();
+                AuthenticationWindow authentication = new AuthenticationWindow();
+                this.Close();
+                authentication.Show();
+            }
+        }
+
+        private void Window_KeyDownAndUp(object sender, KeyEventArgs e)
+        {
+            tick = 0;
+        }
+
+        private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            tick = 0;
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point pp = e.GetPosition(this);
+            if (pp != now)
+            {
+                tick = 0;
+            }
+            now = pp;
+        }
+
+        private void ChangeWindowToAuthentication_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            AuthenticationWindow authentication = new AuthenticationWindow();
+            this.Close();
+            authentication.Show();
         }
     }
 }

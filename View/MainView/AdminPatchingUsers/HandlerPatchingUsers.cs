@@ -31,7 +31,6 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
 
         public HandlerPatchingUsers()
         {
-            image = new Image();
             using (var context = new TestDataBaseEntities())
             {
                 users = context.Users.ToList();
@@ -46,23 +45,6 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
             EmployeesCollectionView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Users.Login)));
             EmployeesCollectionView.SortDescriptions.Add(new SortDescription(nameof(Users.Login), ListSortDirection.Ascending));
 
-            DownloadImage = new RelayCommand(o =>
-            {
-                //BitmapImage myBitmapImage = new BitmapImage();
-                //myBitmapImage.BeginInit();
-                //OpenFileDialog ofdPicture = new OpenFileDialog();
-                //ofdPicture.Filter =
-                //    "Image files|*.bmp;*.jpg;*.JPG;*.gif;*.png;*.tif|All files|*.*";
-                //ofdPicture.FilterIndex = 1;
-                //
-                //if (ofdPicture.ShowDialog() == true)
-                //{
-                //    myBitmapImage.UriSource = new Uri(ofdPicture.FileName);
-                //    myBitmapImage.EndInit();
-                //    image.Source = myBitmapImage;
-                //}
-            });
-
             RegisterUpdate = new RelayCommand(o =>
             {
                 using (var context = new TestDataBaseEntities())
@@ -73,6 +55,7 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
                         us.Name = NodeCategoryUser.Name;
                         us.SurName = NodeCategoryUser.SurName;
                         us.LastName = NodeCategoryUser.LastName;
+                        us.Password = NodeCategoryUser.Password;
                         if(NodeCategoryRoles != null)
                             us.Role = NodeCategoryRoles.Id;
                         if(NodeCategoryGender != null)
@@ -88,17 +71,6 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
                 }
             });
 
-        }
-
-        private Image _image;
-        public Image image
-        {
-            get => _image;
-            set
-            {
-                _image = value;
-                //NodeCategoryUser.PhotoUser = getJPGFromImageControl(image as BitmapImage);
-            }
         }
 
         public string EmployeesFilter
@@ -123,7 +95,8 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
                     return employeeViewModel.Login.Contains(EmployeesFilter);
                 else
                     return employeeViewModel.Login.Contains(EmployeesFilter) || employeeViewModel.Name.Contains(EmployeesFilter) ||
-                    employeeViewModel.LastName.Contains(EmployeesFilter) || employeeViewModel.SurName.Contains(EmployeesFilter);
+                           employeeViewModel.LastName.Contains(EmployeesFilter) || employeeViewModel.SurName.Contains(EmployeesFilter) || 
+                           employeeViewModel.Statuses.NameStatus.Contains(EmployeesFilter) || employeeViewModel.Roles.NameRole.Contains(EmployeesFilter) || employeeViewModel.Genders.NameGender.Contains(EmployeesFilter);
             }
             return false;
         }
@@ -136,23 +109,27 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
             set
             {
                 _NodeCategoryUser = value;
-                if (NodeCategoryUser.Gender != null)
-                    UserGender = NodeCategoryUser.Genders.NameGender;
-                else
-                    UserGender = "";
-                
-                if (NodeCategoryUser.Role != null)
-                    UserRole = NodeCategoryUser.Roles.NameRole;
-                else
-                    UserRole = "";
-                
-                if (NodeCategoryUser.Status != null)
-                    UserStatus = NodeCategoryUser.Statuses.NameStatus;
-                else
-                    UserStatus = "";
+                if(NodeCategoryUser != null)
+                {
+                    if (NodeCategoryUser.Gender != null)
+                        UserGender = NodeCategoryUser.Genders.NameGender;
+                    else
+                        UserGender = "";
+
+                    if (NodeCategoryUser.Role != null)
+                        UserRole = NodeCategoryUser.Roles.NameRole;
+                    else
+                        UserRole = "";
+
+                    if (NodeCategoryUser.Status != null)
+                        UserStatus = NodeCategoryUser.Statuses.NameStatus;
+                    else
+                        UserStatus = "";
 
 
-                OnPropertyChanged("NodeCategoryUser");
+                    OnPropertyChanged("NodeCategoryUser");
+                }
+
             }
         }
 

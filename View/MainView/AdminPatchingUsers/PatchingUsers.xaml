@@ -39,9 +39,8 @@
             </Grid.ColumnDefinitions>
 
             <Border BorderBrush="#4F4FD9" BorderThickness="1" Grid.Column="0" Grid.Row="0"  CornerRadius="15" Height="150" Width="150" HorizontalAlignment="Center">
-                <Image x:Name="PhotoUser" Source="{Binding image}" Width="140" Height="140"/>
+                <Image x:Name="PhotoUser" Source="{Binding NodeCategoryUser.PhotoUser}" Width="140" Height="140"/>
             </Border>
-            <Button Grid.Column="1" Grid.Row="0" Content="Обновить фото" Height="40" Width="250" Style="{StaticResource styleButton}" Command="{Binding DownloadImage}"/>
 
             <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Text="Фамилия" Style="{StaticResource styleTextBlock}" Margin="5" HorizontalAlignment="Center"/>
             <Border Grid.Column="1" Grid.Row="1" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="250">
@@ -63,11 +62,16 @@
                 <TextBox Text="{Binding NodeCategoryUser.Login}" Style="{StaticResource styleTextBox}" Margin="5" VerticalAlignment="Center"  />
             </Border>
 
+            <TextBlock Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Text="Пароль" Style="{StaticResource styleTextBlock}" Margin="5" HorizontalAlignment="Center"/>
+            <Border Grid.Column="1" Grid.Row="5" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="250">
+                <TextBox Text="{Binding NodeCategoryUser.Password}" Style="{StaticResource styleTextBox}" Margin="5" VerticalAlignment="Center"  />
+            </Border>
+
             <!--<TextBlock Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Text="Гендер" Style="{StaticResource styleTextBlock}" Margin="5" HorizontalAlignment="Center"/>-->
-            <Border Grid.Column="0" Grid.Row="5" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="200">
+            <Border Grid.Column="0" Grid.Row="6" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="200">
                 <TextBlock Text="{Binding UserGender}" Style="{StaticResource styleTextBlock}" Margin="5" VerticalAlignment="Center"/>
             </Border>
-            <ComboBox Grid.Column="1" Grid.Row="5" Height="40" Width="250" ItemsSource="{Binding genders}" SelectedItem="{Binding NodeCategoryGender}">
+            <ComboBox Grid.Column="1" Grid.Row="6" Height="40" Width="250" ItemsSource="{Binding genders}" SelectedItem="{Binding NodeCategoryGender}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding NameGender}" Style="{StaticResource styleTextBlock}"/>
@@ -76,10 +80,10 @@
             </ComboBox>
 
 
-            <Border Grid.Column="0" Grid.Row="6" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="200">
+            <Border Grid.Column="0" Grid.Row="7" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="200">
                 <TextBlock Text="{Binding UserRole}" Style="{StaticResource styleTextBlock}" Margin="5" VerticalAlignment="Center"/>
             </Border>
-            <ComboBox Grid.Column="1" Grid.Row="6" Height="40" Width="250" ItemsSource="{Binding roles}" SelectedItem="{Binding NodeCategoryRoles}">
+            <ComboBox Grid.Column="1" Grid.Row="7" Height="40" Width="250" ItemsSource="{Binding roles}" SelectedItem="{Binding NodeCategoryRoles}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding NameRole}" Style="{StaticResource styleTextBlock}"/>
@@ -87,10 +91,10 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <Border Grid.Column="0" Grid.Row="7" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="200">
+            <Border Grid.Column="0" Grid.Row="8" Background="WhiteSmoke" Margin="10" CornerRadius="10" Height="40" Width="200">
                 <TextBlock Text="{Binding UserStatus}" Style="{StaticResource styleTextBlock}" Margin="5" VerticalAlignment="Center"/>
             </Border>
-            <ComboBox Grid.Column="1" Grid.Row="7" Height="40" Width="250" ItemsSource="{Binding statuses}" SelectedItem="{Binding NodeCategoryStatuses}">
+            <ComboBox Grid.Column="1" Grid.Row="8" Height="40" Width="250" ItemsSource="{Binding statuses}" SelectedItem="{Binding NodeCategoryStatuses}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding NameStatus}" Style="{StaticResource styleTextBlock}"/>
@@ -99,7 +103,7 @@
             </ComboBox>
 
 
-            <Button Grid.Column="1" Grid.Row="8" Content="Обновить данные" Height="40" Width="250" Style="{StaticResource styleButton}" Command="{Binding RegisterUpdate}" HorizontalAlignment="Center"/>
+            <Button Grid.Column="1" Grid.Row="9" Content="Обновить данные" Height="40" Width="250" Style="{StaticResource styleButton}" Command="{Binding RegisterUpdate}" HorizontalAlignment="Center"/>
 
 
         </Grid>
@@ -124,9 +128,9 @@
                     <DataGridTextColumn Header="Фамилия" Binding="{Binding Path=SurName}" FontFamily="Georgia" FontSize="22"/>
                     <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" FontFamily="Georgia" FontSize="22"/>
                     <DataGridTextColumn Header="Отество" Binding="{Binding Path=LastName}" FontFamily="Georgia" FontSize="22"/>
-                    <DataGridTextColumn Header="Гендер" Binding="{Binding Path=Gender}" FontFamily="Georgia" FontSize="22"/>
-                    <DataGridTextColumn Header="Роль" Binding="{Binding Path=Role}" FontFamily="Georgia" FontSize="22"/>
-                    <DataGridTextColumn Header="Статус" Binding="{Binding Path=Status}" FontFamily="Georgia" FontSize="22"/>
+                    <DataGridTextColumn Header="Гендер" Binding="{Binding Path=UserGender}" FontFamily="Georgia" FontSize="22"/>
+                    <DataGridTextColumn Header="Роль" Binding="{Binding Path=UserRole}" FontFamily="Georgia" FontSize="22"/>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding Path=UserStatus}" FontFamily="Georgia" FontSize="22"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

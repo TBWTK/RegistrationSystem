@@ -99,15 +99,12 @@
     <Compile Include="View\AuthenticationView\AuthenticationWindow.xaml.cs">
       <DependentUpon>AuthenticationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AuthenticationView\LoginUserControl.xaml.cs">
-      <DependentUpon>LoginUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\AuthenticationView\RegistrationUserControl.xaml.cs">
-      <DependentUpon>RegistrationUserControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\AuthenticationView\RegistrationWindow.xaml.cs">
+      <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView\Account\PersonalAccountUserControl.xaml.cs">
       <DependentUpon>PersonalAccountUserControl.xaml</DependentUpon>
@@ -143,11 +140,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AuthenticationView\LoginUserControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\AuthenticationView\RegistrationUserControl.xaml">
+    <Page Include="View\AuthenticationView\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

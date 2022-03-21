@@ -24,7 +24,29 @@ namespace RegistrationSystem.Model
         public Nullable<int> Gender { get; set; }
         public Nullable<int> Status { get; set; }
         public byte[] PhotoUser { get; set; }
-    
+
+        public string UserGender
+        {
+            get
+            {
+                return Gender != null ? Genders.NameGender : "";
+            }
+        }
+        public string UserRole
+        {
+            get
+            {
+                return Role != null ? Roles.NameRole : "";
+            }
+        }
+        public string UserStatus
+        {
+            get
+            {
+                return Status != null ? Statuses.NameStatus : "";
+            }
+        }
+
         public virtual Genders Genders { get; set; }
         public virtual Roles Roles { get; set; }
         public virtual Statuses Statuses { get; set; }
