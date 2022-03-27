@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RegistrationSystem.View.MainView.AdminPatchingUsers
 {
@@ -23,6 +24,18 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
         public PatchingUsers()
         {
             InitializeComponent();
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Данные обновлены перезагрузите пейдж");
+        }
+
+        private void TextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            CreateUserWindow createUser = new CreateUserWindow();
+            createUser.Show();
         }
     }
 }

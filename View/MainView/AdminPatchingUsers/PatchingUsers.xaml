@@ -103,9 +103,7 @@
             </ComboBox>
 
 
-            <Button Grid.Column="1" Grid.Row="9" Content="Обновить данные" Height="40" Width="250" Style="{StaticResource styleButton}" Command="{Binding RegisterUpdate}" HorizontalAlignment="Center"/>
-
-
+            <Button Grid.Column="1" Grid.Row="9" Content="Обновить данные" Height="40" Width="250" Style="{StaticResource styleButton}" Command="{Binding RegisterUpdate}" HorizontalAlignment="Center" Click="Button_Click"/>
         </Grid>
 
         <StackPanel Margin="5" Grid.Column="1">
@@ -133,6 +131,9 @@
                     <DataGridTextColumn Header="Статус" Binding="{Binding Path=UserStatus}" FontFamily="Georgia" FontSize="22"/>
                 </DataGrid.Columns>
             </DataGrid>
+
+            <TextBlock Text="Добавить новый аккаунт" HorizontalAlignment="Center" Style="{StaticResource styleTextBlock}" Foreground="#4F4FD9" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp"/>
+
         </StackPanel>
 
 

@@ -18,6 +18,8 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
     {
         public RelayCommand DownloadImage { get; set; }
         public RelayCommand RegisterUpdate { get; set; }
+        public RelayCommand CreateUser { get; set; }
+
 
 
         private string _employeesFilter = string.Empty;
@@ -27,7 +29,7 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
         public List<Roles> roles { get; set; }
 
 
-        public ICollectionView EmployeesCollectionView { get; }
+        public ICollectionView EmployeesCollectionView { get;}
 
         public HandlerPatchingUsers()
         {
@@ -47,28 +49,64 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
 
             RegisterUpdate = new RelayCommand(o =>
             {
-                using (var context = new TestDataBaseEntities())
+                if(NodeCategoryUser != null)
                 {
-                    var us = context.Users.SingleOrDefault(x => x.Id == NodeCategoryUser.Id);
-                    if (us != null)
+                    using (var context = new TestDataBaseEntities())
                     {
-                        us.Name = NodeCategoryUser.Name;
-                        us.SurName = NodeCategoryUser.SurName;
-                        us.LastName = NodeCategoryUser.LastName;
-                        us.Password = NodeCategoryUser.Password;
-                        if(NodeCategoryRoles != null)
-                            us.Role = NodeCategoryRoles.Id;
-                        if(NodeCategoryGender != null)
-                            us.Gender = NodeCategoryGender.Id;
-                        if(NodeCategoryStatuses != null)
-                            us.Status = NodeCategoryStatuses.Id;
-                        context.Entry(us).State = EntityState.Modified;
-                        context.SaveChanges();
-                        System.Windows.MessageBox.Show("Изменения прошли успешно");
+                        var us = context.Users.SingleOrDefault(x => x.Id == NodeCategoryUser.Id);
+                        if (us != null)
+                        {
+                            us.Name = NodeCategoryUser.Name;
+                            us.SurName = NodeCategoryUser.SurName;
+                            us.LastName = NodeCategoryUser.LastName;
+                            us.Password = NodeCategoryUser.Password;
+                            if (NodeCategoryRoles != null)
+                                us.Role = NodeCategoryRoles.Id;
+                            if (NodeCategoryGender != null)
+                                us.Gender = NodeCategoryGender.Id;
+                            if (NodeCategoryStatuses != null)
+                                us.Status = NodeCategoryStatuses.Id;
+                            context.Entry(us).State = EntityState.Modified;
+                            context.SaveChanges();
+                            //  System.Windows.MessageBox.Show("Изменения прошли успешно");
+                        }
+                        users = context.Users.ToList();
+                        //EmployeesCollectionView = CollectionViewSource.GetDefaultView(users);
                     }
-                    users = context.Users.ToList();
-
                 }
+
+            });
+
+            CreateUser = new RelayCommand(o =>
+            {
+                if (NodeCategoryUser != null)
+                {
+                    using (var context = new TestDataBaseEntities())
+                    {
+                        //if (NodeCategoryRoles != null)
+                        //    Role = NodeCategoryRoles.Id;
+                        //if (NodeCategoryGender != null)
+                        //    us.Gender = NodeCategoryGender.Id;
+                        //if (NodeCategoryStatuses != null)
+                        //    us.Status = NodeCategoryStatuses.Id;
+                        //Role != null ? Roles.NameRole : "";
+                        var us = new Users()
+                        {
+                            Name = NodeCategoryUser.Name,
+                            SurName = NodeCategoryUser.SurName,
+                            LastName = NodeCategoryUser.LastName,
+                            Login = NodeCategoryUser.Login,
+                            Password = NodeCategoryUser.Password,
+                            Role = NodeCategoryRoles?.Id,
+                            Gender = NodeCategoryGender?.Id,
+                            Status = NodeCategoryStatuses?.Id
+
+                        };
+                        context.Users.Add(us);
+                        context.SaveChanges();
+                    }
+                }
+
             });
 
         }
@@ -91,6 +129,8 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
         {
             if (obj is Users employeeViewModel)
             {
+                if (employeeViewModel.Login == null)
+                    return false;
                 if (employeeViewModel.Name == null || employeeViewModel.LastName == null || employeeViewModel.SurName == null || employeeViewModel.Role == null || employeeViewModel.Gender == null || employeeViewModel.Status == null)
                     return employeeViewModel.Login.Contains(EmployeesFilter);
                 else

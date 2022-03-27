@@ -31,7 +31,7 @@ namespace RegistrationSystem.View.MainView
                 var us = context.Users.SingleOrDefault(x => x.Id == idUser);
                 if (us != null)
                 {
-                    if (us.Statuses.NameStatus == "Active")
+                    if (us.Statuses.NameStatus != "Active")
                     {
                         AdminPButtonUsers.Visibility = Visibility.Hidden;
                     }
