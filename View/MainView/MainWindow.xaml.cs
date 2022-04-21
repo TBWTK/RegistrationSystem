@@ -49,7 +49,7 @@ namespace RegistrationSystem.View.MainView
 
         private void PatchingUsersPage(object sender, RoutedEventArgs e)
         {
-            PageChange.Content = new PatchingUsers();
+            PageChange.Content = new PatchingUserControl();
         }
 
 

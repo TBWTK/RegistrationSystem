@@ -109,13 +109,8 @@
     <Compile Include="View\MainView\Account\PersonalAccountUserControl.xaml.cs">
       <DependentUpon>PersonalAccountUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MainView\AdminPatchingUsers\CreateUserClass.cs" />
-    <Compile Include="View\MainView\AdminPatchingUsers\CreateUserWindow.xaml.cs">
-      <DependentUpon>CreateUserWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MainView\AdminPatchingUsers\HandlerPatchingUsers.cs" />
-    <Compile Include="View\MainView\AdminPatchingUsers\PatchingUsers.xaml.cs">
-      <DependentUpon>PatchingUsers.xaml</DependentUpon>
+    <Compile Include="View\MainView\AdminPatchingUsers\PatchingUserControl.xaml.cs">
+      <DependentUpon>PatchingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -152,11 +147,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MainView\AdminPatchingUsers\CreateUserWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainView\AdminPatchingUsers\PatchingUsers.xaml">
+    <Page Include="View\MainView\AdminPatchingUsers\PatchingUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,6 +210,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
+    <Resource Include="View\MainView\AdminPatchingUsers\Image\defaultPhoto.png" />
     <Resource Include="View\MainView\AdminPatchingUsers\Image\lock.png" />
     <Resource Include="View\AuthenticationView\Image\reload.png" />
   </ItemGroup>

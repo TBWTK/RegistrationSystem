@@ -60,23 +60,33 @@ namespace RegistrationSystem.View.AuthenticationView
         {
             if (PassPassBoxOne.Password != "" && PassPassBoxTwo.Password != "" && (PassPassBoxOne.Password == PassPassBoxTwo.Password) && LoginTextBox.Text != "")
             {
-                using (var context = new TestDataBaseEntities())
+                try
                 {
-                    var std = new Users()
+                    using (var context = new TestDataBaseEntities())
                     {
-                        Login = LoginTextBox.Text,
-                        Password = PassPassBoxOne.Password.Trim()
-                    };
-                    context.Users.Add(std);
-                    context.SaveChanges();
+                        var status = context.Statuses.SingleOrDefault(x => x.NameStatus == "Active");
+                        var std = new Users()
+                        {
+                            Login = LoginTextBox.Text,
+                            Password = PassPassBoxOne.Password.Trim(),
+                            Status = status.Id
+                        };
+                        context.Users.Add(std);
+                        context.SaveChanges();
 
-                    var us = context.Users.SingleOrDefault(x => x.Login == LoginTextBox.Text);
-                    if (us != null)
-                    {
-                        MainView.MainWindow mainWindow = new MainView.MainWindow(us.Id);
-                        mainWindow.Show();
-                        Application.Current.MainWindow.Close();
+                        var us = context.Users.SingleOrDefault(x => x.Login == LoginTextBox.Text);
+                        if (us != null)
+                        {
+                            MainView.MainWindow mainWindow = new MainView.MainWindow(us.Id);
+                            timer.Stop();
+                            this.Close();
+                            mainWindow.Show();
+                        }
                     }
+                }
+                catch
+                {
+                    MessageBox.Show("Логин существууте, введите другой логин!");
                 }
             }
             else
@@ -90,8 +100,8 @@ namespace RegistrationSystem.View.AuthenticationView
             ++tick;
             if (tick == 20)
             {
-                timer.Stop();
                 AuthenticationWindow authentication = new AuthenticationWindow();
+                timer.Stop();
                 this.Close();
                 authentication.Show();
             }
@@ -120,6 +130,7 @@ namespace RegistrationSystem.View.AuthenticationView
         private void ChangeWindowToAuthentication_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             AuthenticationWindow authentication = new AuthenticationWindow();
+            timer.Stop();
             this.Close();
             authentication.Show();
         }

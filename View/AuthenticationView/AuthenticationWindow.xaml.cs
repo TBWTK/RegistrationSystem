@@ -54,14 +54,15 @@ namespace RegistrationSystem.View.AuthenticationView
                         {
                             MainView.MainWindow main = new MainView.MainWindow(us.Id);
                             main.Show();
-                            Application.Current.MainWindow.Close();
+                            timer.Stop();
+                            this.Close();
+                            //Application.Current.MainWindow.Close();
                         }
                         else
                         {
                             iteratorLogin++;
                             MessageBox.Show("Пользователь неактивен обратитесь к администратору");
                         }
-
                     }
                     else
                     {
@@ -148,6 +149,7 @@ namespace RegistrationSystem.View.AuthenticationView
         private void ChangeWindowToRegistration_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             RegistrationWindow registration = new RegistrationWindow();
+            timer.Stop();
             this.Close();
             registration.Show();
         }
