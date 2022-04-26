@@ -208,6 +208,7 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
                         us.LastName = LastNameTextBox.Text;
                         us.Login = LoginTextBox.Text;
                         us.Password = PasswordTextBox.Text;
+
                         if (HandlerRoles.NameRole != null)
                             us.Role = HandlerRoles.Id;
                         else

@@ -12,21 +12,20 @@ namespace RegistrationSystem.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Statuses
+    public partial class Models
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Statuses()
+        public Models()
         {
             this.Cars = new HashSet<Cars>();
-            this.Users = new HashSet<Users>();
         }
     
         public int Id { get; set; }
-        public string NameStatus { get; set; }
+        public Nullable<int> Brand { get; set; }
+        public string NameModel { get; set; }
     
+        public virtual Brands Brands { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cars> Cars { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
     }
 }

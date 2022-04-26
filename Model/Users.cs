@@ -28,7 +28,6 @@ namespace RegistrationSystem.Model
         public string UserGender { get; set; }
         public string UserRole { get; set; }
         public string UserStatus { get; set; }
-
         public virtual Genders Genders { get; set; }
         public virtual Roles Roles { get; set; }
         public virtual Statuses Statuses { get; set; }

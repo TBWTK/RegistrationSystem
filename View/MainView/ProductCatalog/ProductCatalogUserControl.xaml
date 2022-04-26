@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="RegistrationSystem.View.MainView.ProductCatalog.ProductCatalogUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RegistrationSystem.View.MainView.ProductCatalog"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="listTemplate">
+            <StackPanel Height="300">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=BrandCar}" Style="{StaticResource styleTextBlock}" Margin="5 0"/>
+                    <TextBlock Text="{Binding Path=ModelCar}" Style="{StaticResource styleTextBlock}" Margin="5 0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Цена мин/руб: " Style="{StaticResource styleTextBlock}" Margin="5 0"/>
+                    <TextBlock Text="{Binding Path=Price}" Style="{StaticResource styleTextBlock}" Margin="5 0"/>
+                </StackPanel>
+                <Image x:Name="PhotoCarSource" Width="350" Height="200" Source="{Binding Path=PhotoCar}" Margin="5"/>
+                <Button x:Name="ButtonChoice" Content="Выбрать" Click="ButtonChoice_Click" Style="{StaticResource styleButton}"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="Отображение товара: " Style="{StaticResource styleTextBlock}" VerticalAlignment="Center"/>
+            <ToolBar Margin="0 20">
+                <RadioButton x:Name="OneProductDisplay" Content="Винтрина 1" Style="{StaticResource StyleRadioButton}" Width="150" Height="40" Click="OneProductDisplay_Click"/>
+                <Separator/>
+                <RadioButton x:Name="FourProductDisplay" Content="Винтрина 4" Style="{StaticResource StyleRadioButton}" Width="150" Height="40" Click="FourProductDisplay_Click"/>
+                <Separator/>
+                <RadioButton x:Name="ListProductDisplay" Content="Список" Style="{StaticResource StyleRadioButton}" Width="150" Height="40" IsChecked="True" Click="ListProductDisplay_Click"/>
+                <Separator/>
+            </ToolBar>
+            <StackPanel Margin="10 0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Сортировка цены от: " Style="{StaticResource styleTextBlock}" VerticalAlignment="Top"/>
+                    <TextBlock Name="TextSliderStart" Style="{StaticResource styleTextBlock}" Text="0"/>
+                </StackPanel>
+                <Slider x:Name="SliderStart" Value="0" Minimum="0" Maximum="100" SelectionStart="0" Height="30" 
+        IsSelectionRangeEnabled="True" ValueChanged="SliderStart_ValueChanged"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Сортировка цены до: " Style="{StaticResource styleTextBlock}" VerticalAlignment="Top"/>
+                    <TextBlock Name="TextSliderEnd" Style="{StaticResource styleTextBlock}" Text="100"/>
+                </StackPanel>
+                <Slider x:Name="SliderEnd" Value="100" Minimum="0" Maximum="100" SelectionStart="0" Height="30" 
+        IsSelectionRangeEnabled="True" ValueChanged="SliderEnd_ValueChanged"/>
+            </StackPanel>
+
+            <Button x:Name="SearchPrice" Content="Искать по цене" Style="{StaticResource styleButton}" Height="40" Click="SearchPrice_Click"/>
+            
+
+        </StackPanel>
+
+
+
+
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.1*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+
+                <Button Width="75" Height="75" Background="White" HorizontalAlignment="Center">
+                    <Image Source="Image/cart.png"/>
+                </Button>
+
+                <TextBlock Text="Поиск по бренду" Style="{StaticResource styleTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                <ComboBox x:Name="BrandComboBox" Height="40" Width="250" Margin="10" SelectionChanged="BrandComboBox_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NameBrand}" Style="{StaticResource styleTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Поиск по модели" Style="{StaticResource styleTextBlock}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                <ComboBox x:Name="ModelComboBox" Height="40" Width="250" Margin="10" SelectionChanged="ModelComboBox_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NameModel}" Style="{StaticResource styleTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button x:Name="ClearButton" Content="Отчистить поиск" Style="{StaticResource styleButton}" Height="40" Width="250" Click="ClearButton_Click"/>
+
+            </StackPanel>
+
+            <Grid Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ScrollViewer Height="600">
+                    <ListBox x:Name="ProductCatalog" ItemTemplate="{StaticResource listTemplate}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </ScrollViewer>
+            </Grid>
+
+
+            <Grid Grid.Column="3">
+                <StackPanel x:Name="ButtonHadlerOneProductDisplay" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+                    <Button x:Name="ButtonPreviousOneProduct" Width="30" Height="30" Click="ButtonPreviousOneProduct_Click">
+                        <Image Source="Image/left.png"/>
+                    </Button>
+                    <Button x:Name="ButtonNextOneProduct" Width="30" Height="30" Click="ButtonNextOneProduct_Click">
+                        <Image Source="Image/right.png"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel x:Name="ButtonHadlerFourProductDisplay" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+                    <Button x:Name="ButtonPreviousFourProduct" Width="30" Height="30" Click="ButtonPreviousFourProduct_Click">
+                        <Image Source="Image/left.png"/>
+                    </Button>
+                    <Button x:Name="ButtonNextFourProduct" Width="30" Height="30" Click="ButtonNextFourProduct_Click">
+                        <Image Source="Image/right.png"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</UserControl>

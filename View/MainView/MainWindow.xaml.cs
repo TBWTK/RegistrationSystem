@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using RegistrationSystem.View.MainView.Account;
 using RegistrationSystem.View.MainView.AdminPatchingUsers;
+using RegistrationSystem.View.MainView.ProductCatalog;
 using System.Windows.Threading;
 using System;
 using RegistrationSystem.Model;
@@ -52,6 +53,11 @@ namespace RegistrationSystem.View.MainView
             PageChange.Content = new PatchingUserControl();
         }
 
+        private void ProductCatalog(object sender, RoutedEventArgs e)
+        {
+            PageChange.Content = new ProductCatalogUserControl();
+            //PageChange.Content = new CreateNewProduct();
+        }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
