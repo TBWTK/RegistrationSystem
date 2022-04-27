@@ -124,6 +124,9 @@
     <Compile Include="View\MainView\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MainView\ProductCatalog\BaskUserControl.xaml.cs">
+      <DependentUpon>BaskUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainView\ProductCatalog\CreateNewProduct.xaml.cs">
       <DependentUpon>CreateNewProduct.xaml</DependentUpon>
     </Compile>
@@ -167,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainView\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainView\ProductCatalog\BaskUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
