@@ -56,6 +56,7 @@ namespace RegistrationSystem.View.MainView
         private void ProductCatalog(object sender, RoutedEventArgs e)
         {
             PageChange.Content = new ProductCatalogUserControl(idUser);
+
             //PageChange.Content = new CreateNewProduct();
         }
 

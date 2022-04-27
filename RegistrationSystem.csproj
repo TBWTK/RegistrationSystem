@@ -93,6 +93,9 @@
     <Compile Include="Model\Models.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Order.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Roles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -123,9 +126,6 @@
     </Compile>
     <Compile Include="View\MainView\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MainView\ProductCatalog\BaskUserControl.xaml.cs">
-      <DependentUpon>BaskUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainView\ProductCatalog\CreateNewProduct.xaml.cs">
       <DependentUpon>CreateNewProduct.xaml</DependentUpon>
@@ -170,10 +170,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainView\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainView\ProductCatalog\BaskUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -37,6 +37,16 @@
           <Property Name="Brand" Type="int" />
           <Property Name="NameModel" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User" Type="int" />
+          <Property Name="Car" Type="int" />
+          <Property Name="Ammount" Type="float" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="Id" />
@@ -112,6 +122,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Order_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Genders">
           <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -153,6 +187,7 @@
           <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Models" EntityType="Self.Models" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -168,6 +203,14 @@
           <AssociationSet Name="FK_Models_Brands" Association="Self.FK_Models_Brands">
             <End Role="Brands" EntitySet="Brands" />
             <End Role="Models" EntitySet="Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Cars" Association="Self.FK_Order_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Users" Association="Self.FK_Order_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Genders" Association="Self.FK_Users_Genders">
             <End Role="Genders" EntitySet="Genders" />
@@ -206,6 +249,7 @@
           <Property Name="PhotoCar" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Models" Relationship="Self.FK_Cars_Models" FromRole="Cars" ToRole="Models" />
           <NavigationProperty Name="Statuses" Relationship="Self.FK_Cars_Statuses" FromRole="Cars" ToRole="Statuses" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Cars" FromRole="Cars" ToRole="Order" />
         </EntityType>
         <EntityType Name="Genders">
           <Key>
@@ -224,6 +268,18 @@
           <Property Name="NameModel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Brands" Relationship="Self.FK_Models_Brands" FromRole="Models" ToRole="Brands" />
           <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Models" FromRole="Models" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User" Type="Int32" />
+          <Property Name="Car" Type="Int32" />
+          <Property Name="Ammount" Type="Double" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Order_Cars" FromRole="Order" ToRole="Cars" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Order_Users" FromRole="Order" ToRole="Users" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -267,6 +323,7 @@
           <Property Name="Status" Type="Int32" />
           <Property Name="PhotoUser" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Genders" Relationship="Self.FK_Users_Genders" FromRole="Users" ToRole="Genders" />
+          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Users" FromRole="Users" ToRole="Order" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="Statuses" Relationship="Self.FK_Users_Statuses" FromRole="Users" ToRole="Statuses" />
         </EntityType>
@@ -306,6 +363,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Order_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Genders">
           <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -315,6 +384,18 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="Gender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="User" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -347,6 +428,7 @@
           <EntitySet Name="Cars" EntityType="Self.Cars" />
           <EntitySet Name="Genders" EntityType="Self.Genders" />
           <EntitySet Name="Models" EntityType="Self.Models" />
+          <EntitySet Name="Order" EntityType="Self.Order" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
@@ -363,9 +445,17 @@
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
+          <AssociationSet Name="FK_Order_Cars" Association="Self.FK_Order_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK_Users_Genders" Association="Self.FK_Users_Genders">
             <End Role="Genders" EntitySet="Genders" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Users" Association="Self.FK_Order_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -415,6 +505,17 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="NameModel" ColumnName="NameModel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="TestDataBaseModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Car" ColumnName="Car" />
+                <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

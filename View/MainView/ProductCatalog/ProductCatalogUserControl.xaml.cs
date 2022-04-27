@@ -26,13 +26,14 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
         private int IndexItemCatalog = 0;
 
         private int IdUser = 0;
+        private List<Cars> BasketCar { get; set; }
 
         public ProductCatalogUserControl(int IDUSER)
         {
             InitializeComponent();
             cars = new List<Cars>();
             carsHandler = new List<Cars>();
-
+            BasketCar = new List<Cars>();
             IdCars = new List<int>();
 
             IdUser = IDUSER;
@@ -106,7 +107,10 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
         private void ButtonChoice_Click(object sender, RoutedEventArgs e)
         {
             Cars curItem = (Cars)((ListBoxItem)ProductCatalog.ContainerFromElement((Button)sender)).Content;
-            MessageBox.Show(Convert.ToString(curItem.Id));
+            int temp = Convert.ToInt32(QuentytiProduct.Text);
+            temp++;
+            QuentytiProduct.Text = Convert.ToString(temp);
+            BasketCar.Add(curItem);
         }
 
         // Функция по выгрузке в лист айдишников машин 
@@ -335,5 +339,40 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
             TextSliderEnd.Text = "100,00";
         }
 
+        // Переход к корзине
+        private void MoveToBasket_Click(object sender, RoutedEventArgs e)
+        {
+            BasketGird.Visibility = Visibility.Visible;
+            CatalogGrid.Visibility = Visibility.Hidden;
+            BasketCatalog.ItemsSource = BasketCar;
+        }
+
+        /*Функции и методы, которые относятся к корзине товаров*/
+
+        private void BackToCatalog_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            BasketGird.Visibility = Visibility.Hidden;
+            CatalogGrid.Visibility = Visibility.Visible;
+        }
+
+        private void MakeOrder_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (BasketCar.Count != 0)
+            {
+                MessageBox.Show("Заказ офформлен");
+            }
+            else
+                MessageBox.Show("Товаров нет в корзине");
+        }
+
+        private void DeleteProduct_Click(object sender, RoutedEventArgs e)
+        {
+            Cars curItem = (Cars)((ListBoxItem)BasketCatalog.ContainerFromElement((Button)sender)).Content;
+
+            var newProducts = BasketCar.Where(u => u.Id != curItem.Id);
+            BasketCar.Remove(curItem);
+            BasketCatalog.ItemsSource = newProducts;
+
+        }
     }
 }

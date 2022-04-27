@@ -14,6 +14,12 @@ namespace RegistrationSystem.Model
     
     public partial class Users
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Users()
+        {
+            this.Order = new HashSet<Order>();
+        }
+    
         public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
@@ -29,6 +35,8 @@ namespace RegistrationSystem.Model
         public string UserRole { get; set; }
         public string UserStatus { get; set; }
         public virtual Genders Genders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Order { get; set; }
         public virtual Roles Roles { get; set; }
         public virtual Statuses Statuses { get; set; }
     }

@@ -14,16 +14,23 @@ namespace RegistrationSystem.Model
     
     public partial class Cars
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Cars()
+        {
+            this.Order = new HashSet<Order>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> Status { get; set; }
         public Nullable<int> NameCar { get; set; }
         public Nullable<double> Price { get; set; }
         public byte[] PhotoCar { get; set; }
-   
         public string ModelCar { get; set; }
         public string BrandCar { get; set; }
-   
+
         public virtual Models Models { get; set; }
         public virtual Statuses Statuses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Order { get; set; }
     }
 }
