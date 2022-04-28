@@ -24,16 +24,20 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
      
 
         private int IndexItemCatalog = 0;
+        private double additionsSum;
 
         private int IdUser = 0;
-        private List<Cars> BasketCar { get; set; }
+        private List<Baskets> BasketCar { get; set; }
+        private List<Cars> HandlerBasketCar { get; set; }
+
 
         public ProductCatalogUserControl(int IDUSER)
         {
             InitializeComponent();
             cars = new List<Cars>();
             carsHandler = new List<Cars>();
-            BasketCar = new List<Cars>();
+            HandlerBasketCar = new List<Cars>();
+            BasketCar = new List<Baskets>();
             IdCars = new List<int>();
 
             IdUser = IDUSER;
@@ -107,10 +111,13 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
         private void ButtonChoice_Click(object sender, RoutedEventArgs e)
         {
             Cars curItem = (Cars)((ListBoxItem)ProductCatalog.ContainerFromElement((Button)sender)).Content;
-            int temp = Convert.ToInt32(QuentytiProduct.Text);
-            temp++;
-            QuentytiProduct.Text = Convert.ToString(temp);
-            BasketCar.Add(curItem);
+            double temp = Convert.ToDouble(QuentytiProduct.Text);
+            additionsSum = (double)(temp + curItem.Price);
+            QuentytiProduct.Text = $"{additionsSum:0.00}";
+            SumOrder.Text = $"{additionsSum:0.00}";
+
+
+            HandlerBasketCar.Add(curItem);
         }
 
         // Функция по выгрузке в лист айдишников машин 
@@ -344,7 +351,7 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
         {
             BasketGird.Visibility = Visibility.Visible;
             CatalogGrid.Visibility = Visibility.Hidden;
-            BasketCatalog.ItemsSource = BasketCar;
+            BasketCatalog.ItemsSource = HandlerBasketCar;
         }
 
         /*Функции и методы, которые относятся к корзине товаров*/
@@ -355,11 +362,54 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
             CatalogGrid.Visibility = Visibility.Visible;
         }
 
+        // Событие создания заказа
         private void MakeOrder_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (BasketCar.Count != 0)
+            if (HandlerBasketCar.Count != 0)
             {
-                MessageBox.Show("Заказ офформлен");
+                try
+                {
+                    using (var context = new TestDataBaseEntities())
+                    {
+                        var datetime = DateTime.Now;
+                        var onlydate = datetime.Date;
+                        Orders newOrder = new Orders()
+                        {
+                            User = IdUser,
+                            Ammount = additionsSum,
+                            Date = onlydate
+                        };
+                        context.Orders.Add(newOrder);
+                        context.SaveChanges();
+
+                        var getOrder = context.Orders.SingleOrDefault(o => o.User == IdUser && o.Ammount == additionsSum && o.Date == onlydate);
+
+                        foreach (var item in HandlerBasketCar)
+                        {
+                            Baskets productToBasket = new Baskets
+                            {
+                                Car = item.Id,
+                                Order = getOrder.Id
+
+                            };
+                            context.Baskets.Add(productToBasket);
+                        }
+                        context.SaveChanges();
+                    }
+                    MessageBox.Show("Заказ оформлен дон");
+
+                    additionsSum = 0;
+                    QuentytiProduct.Text = $"{additionsSum:0.00}";
+                    SumOrder.Text = $"{additionsSum:0.00}";
+
+                    HandlerBasketCar.Clear();
+                    BasketCatalog.ItemsSource = HandlerBasketCar.ToList();
+                }
+                catch
+                {
+                    MessageBox.Show("Произшла непредвиденная ошибка, помолитесь");
+                }
+
             }
             else
                 MessageBox.Show("Товаров нет в корзине");
@@ -369,8 +419,14 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
         {
             Cars curItem = (Cars)((ListBoxItem)BasketCatalog.ContainerFromElement((Button)sender)).Content;
 
-            var newProducts = BasketCar.Where(u => u.Id != curItem.Id);
-            BasketCar.Remove(curItem);
+            var newProducts = HandlerBasketCar.Where(u => u.Id != curItem.Id);
+
+            double temp = Convert.ToDouble(QuentytiProduct.Text);
+            additionsSum = (double)(temp - curItem.Price);
+            QuentytiProduct.Text = $"{additionsSum:0.00}";
+            SumOrder.Text = $"{additionsSum:0.00}";
+
+            HandlerBasketCar.Remove(curItem);
             BasketCatalog.ItemsSource = newProducts;
 
         }

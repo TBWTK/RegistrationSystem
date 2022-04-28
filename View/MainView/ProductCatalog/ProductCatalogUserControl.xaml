@@ -189,11 +189,15 @@
 
             <StackPanel Grid.Row="1">
 
-                <TextBlock Text="Заполните время и оформите заказ" Style="{StaticResource styleTextBlock}" FontSize="30" Foreground="#4F4FD9" Margin="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Сумма заказа" Style="{StaticResource styleTextBlock}" FontSize="30" Foreground="#4F4FD9" Margin="10"/>
+                    <TextBlock x:Name="SumOrder" Style="{StaticResource styleTextBlock}" FontSize="30" Foreground="#4F4FD9" Margin="10"/>
+
+                </StackPanel>
 
 
                 <ListBox x:Name="BasketCatalog" ItemTemplate="{StaticResource listTemplateBasket}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                         ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />
@@ -201,14 +205,6 @@
                     </ListBox.ItemsPanel>
                 </ListBox>
 
-                <!--<DataGrid  x:Name="BasketCatalog" AutoGenerateColumns="False" FontFamily="Georgia" FontSize="26" Margin="10">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Марка" Binding="{Binding Path=BrandCar}" FontFamily="Georgia" FontSize="22" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Модель" Binding="{Binding Path=ModelCar}" FontFamily="Georgia" FontSize="22" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Цена руб/мин" Binding="{Binding Path=Price}" FontFamily="Georgia" FontSize="22" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Время проката" FontFamily="Georgia" FontSize="22" IsReadOnly="False"/>
-                    </DataGrid.Columns>
-                </DataGrid>-->
             </StackPanel>
 
 

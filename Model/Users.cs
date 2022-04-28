@@ -17,7 +17,7 @@ namespace RegistrationSystem.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Users()
         {
-            this.Order = new HashSet<Order>();
+            this.Orders = new HashSet<Orders>();
         }
     
         public int Id { get; set; }
@@ -30,13 +30,14 @@ namespace RegistrationSystem.Model
         public Nullable<int> Gender { get; set; }
         public Nullable<int> Status { get; set; }
         public byte[] PhotoUser { get; set; }
-
         public string UserGender { get; set; }
         public string UserRole { get; set; }
         public string UserStatus { get; set; }
+
+
         public virtual Genders Genders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<Orders> Orders { get; set; }
         public virtual Roles Roles { get; set; }
         public virtual Statuses Statuses { get; set; }
     }

@@ -25,11 +25,12 @@ namespace RegistrationSystem.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Baskets> Baskets { get; set; }
         public virtual DbSet<Brands> Brands { get; set; }
         public virtual DbSet<Cars> Cars { get; set; }
         public virtual DbSet<Genders> Genders { get; set; }
         public virtual DbSet<Models> Models { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Statuses> Statuses { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }

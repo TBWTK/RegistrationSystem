@@ -17,7 +17,7 @@ namespace RegistrationSystem.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cars()
         {
-            this.Order = new HashSet<Order>();
+            this.Baskets = new HashSet<Baskets>();
         }
     
         public int Id { get; set; }
@@ -28,9 +28,9 @@ namespace RegistrationSystem.Model
         public string ModelCar { get; set; }
         public string BrandCar { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Baskets> Baskets { get; set; }
         public virtual Models Models { get; set; }
         public virtual Statuses Statuses { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Order { get; set; }
     }
 }

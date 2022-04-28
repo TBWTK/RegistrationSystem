@@ -66,6 +66,9 @@
     </ApplicationDefinition>
     <Compile Include="Core\ObservableObjects.cs" />
     <Compile Include="Core\RelayCommand.cs" />
+    <Compile Include="Model\Baskets.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Brands.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -93,7 +96,7 @@
     <Compile Include="Model\Models.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Order.cs">
+    <Compile Include="Model\Orders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Roles.cs">

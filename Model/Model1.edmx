@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Хранилище TestDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Baskets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Car" Type="int" />
+          <Property Name="Order" Type="int" />
+        </EntityType>
         <EntityType Name="Brands">
           <Key>
             <PropertyRef Name="Id" />
@@ -37,13 +45,12 @@
           <Property Name="Brand" Type="int" />
           <Property Name="NameModel" Type="varchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="Order">
+        <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="User" Type="int" />
-          <Property Name="Car" Type="int" />
           <Property Name="Ammount" Type="float" />
           <Property Name="Date" Type="date" />
         </EntityType>
@@ -86,6 +93,18 @@
           <Property Name="Status" Type="int" />
           <Property Name="PhotoUser" Type="image" />
         </EntityType>
+        <Association Name="FK_Baskets_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Baskets" Type="Self.Baskets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Baskets">
+              <PropertyRef Name="Car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cars_Models">
           <End Role="Models" Type="Self.Models" Multiplicity="0..1" />
           <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
@@ -122,26 +141,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_Cars">
-          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cars">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="Car" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Order_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Order">
+            <Dependent Role="Orders">
               <PropertyRef Name="User" />
             </Dependent>
           </ReferentialConstraint>
@@ -183,15 +190,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище TestDataBaseModelContainer">
+          <EntitySet Name="Baskets" EntityType="Self.Baskets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genders" EntityType="Self.Genders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Models" EntityType="Self.Models" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Baskets_Cars" Association="Self.FK_Baskets_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Baskets" EntitySet="Baskets" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cars_Models" Association="Self.FK_Cars_Models">
             <End Role="Models" EntitySet="Models" />
             <End Role="Cars" EntitySet="Cars" />
@@ -204,13 +216,9 @@
             <End Role="Brands" EntitySet="Brands" />
             <End Role="Models" EntitySet="Models" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_Cars" Association="Self.FK_Order_Cars">
-            <End Role="Cars" EntitySet="Cars" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
           <AssociationSet Name="FK_Order_Users" Association="Self.FK_Order_Users">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Order" EntitySet="Order" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Genders" Association="Self.FK_Users_Genders">
             <End Role="Genders" EntitySet="Genders" />
@@ -230,6 +238,15 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TestDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Baskets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Car" Type="Int32" />
+          <Property Name="Order" Type="Int32" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Baskets_Cars" FromRole="Baskets" ToRole="Cars" />
+        </EntityType>
         <EntityType Name="Brands">
           <Key>
             <PropertyRef Name="Id" />
@@ -247,9 +264,9 @@
           <Property Name="NameCar" Type="Int32" />
           <Property Name="Price" Type="Double" />
           <Property Name="PhotoCar" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Baskets" Relationship="Self.FK_Baskets_Cars" FromRole="Cars" ToRole="Baskets" />
           <NavigationProperty Name="Models" Relationship="Self.FK_Cars_Models" FromRole="Cars" ToRole="Models" />
           <NavigationProperty Name="Statuses" Relationship="Self.FK_Cars_Statuses" FromRole="Cars" ToRole="Statuses" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Cars" FromRole="Cars" ToRole="Order" />
         </EntityType>
         <EntityType Name="Genders">
           <Key>
@@ -269,17 +286,15 @@
           <NavigationProperty Name="Brands" Relationship="Self.FK_Models_Brands" FromRole="Models" ToRole="Brands" />
           <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Models" FromRole="Models" ToRole="Cars" />
         </EntityType>
-        <EntityType Name="Order">
+        <EntityType Name="Orders">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="User" Type="Int32" />
-          <Property Name="Car" Type="Int32" />
           <Property Name="Ammount" Type="Double" />
           <Property Name="Date" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Cars" Relationship="Self.FK_Order_Cars" FromRole="Order" ToRole="Cars" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Order_Users" FromRole="Order" ToRole="Users" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Order_Users" FromRole="Orders" ToRole="Users" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -323,10 +338,22 @@
           <Property Name="Status" Type="Int32" />
           <Property Name="PhotoUser" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Genders" Relationship="Self.FK_Users_Genders" FromRole="Users" ToRole="Genders" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Users" FromRole="Users" ToRole="Order" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Users" FromRole="Users" ToRole="Orders" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="Statuses" Relationship="Self.FK_Users_Statuses" FromRole="Users" ToRole="Statuses" />
         </EntityType>
+        <Association Name="FK_Baskets_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
+          <End Role="Baskets" Type="Self.Baskets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Baskets">
+              <PropertyRef Name="Car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Models_Brands">
           <End Role="Brands" Type="Self.Brands" Multiplicity="0..1" />
           <End Role="Models" Type="Self.Models" Multiplicity="*" />
@@ -363,18 +390,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_Cars">
-          <End Role="Cars" Type="Self.Cars" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cars">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="Car" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Users_Genders">
           <End Role="Genders" Type="Self.Genders" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -389,12 +404,12 @@
         </Association>
         <Association Name="FK_Order_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Order">
+            <Dependent Role="Orders">
               <PropertyRef Name="User" />
             </Dependent>
           </ReferentialConstraint>
@@ -424,15 +439,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TestDataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Baskets" EntityType="Self.Baskets" />
           <EntitySet Name="Brands" EntityType="Self.Brands" />
           <EntitySet Name="Cars" EntityType="Self.Cars" />
           <EntitySet Name="Genders" EntityType="Self.Genders" />
           <EntitySet Name="Models" EntityType="Self.Models" />
-          <EntitySet Name="Order" EntityType="Self.Order" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Baskets_Cars" Association="Self.FK_Baskets_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="Baskets" EntitySet="Baskets" />
+          </AssociationSet>
           <AssociationSet Name="FK_Models_Brands" Association="Self.FK_Models_Brands">
             <End Role="Brands" EntitySet="Brands" />
             <End Role="Models" EntitySet="Models" />
@@ -445,17 +465,13 @@
             <End Role="Statuses" EntitySet="Statuses" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_Cars" Association="Self.FK_Order_Cars">
-            <End Role="Cars" EntitySet="Cars" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
           <AssociationSet Name="FK_Users_Genders" Association="Self.FK_Users_Genders">
             <End Role="Genders" EntitySet="Genders" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Users" Association="Self.FK_Order_Users">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Order" EntitySet="Order" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -472,6 +488,15 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище TestDataBaseModelContainer" CdmEntityContainer="TestDataBaseEntities">
+          <EntitySetMapping Name="Baskets">
+            <EntityTypeMapping TypeName="TestDataBaseModel.Baskets">
+              <MappingFragment StoreEntitySet="Baskets">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Car" ColumnName="Car" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Brands">
             <EntityTypeMapping TypeName="TestDataBaseModel.Brands">
               <MappingFragment StoreEntitySet="Brands">
@@ -508,12 +533,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Order">
-            <EntityTypeMapping TypeName="TestDataBaseModel.Order">
-              <MappingFragment StoreEntitySet="Order">
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="TestDataBaseModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="User" ColumnName="User" />
-                <ScalarProperty Name="Car" ColumnName="Car" />
                 <ScalarProperty Name="Ammount" ColumnName="Ammount" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>

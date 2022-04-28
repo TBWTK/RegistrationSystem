@@ -12,15 +12,12 @@ namespace RegistrationSystem.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Order
+    public partial class Baskets
     {
         public int Id { get; set; }
-        public Nullable<int> User { get; set; }
         public Nullable<int> Car { get; set; }
-        public Nullable<double> Ammount { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<int> Order { get; set; }
     
         public virtual Cars Cars { get; set; }
-        public virtual Users Users { get; set; }
     }
 }
