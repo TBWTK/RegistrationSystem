@@ -105,6 +105,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Baskets_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="Baskets" Type="Self.Baskets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Baskets">
+              <PropertyRef Name="Order" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Cars_Models">
           <End Role="Models" Type="Self.Models" Multiplicity="0..1" />
           <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
@@ -204,6 +216,10 @@
             <End Role="Cars" EntitySet="Cars" />
             <End Role="Baskets" EntitySet="Baskets" />
           </AssociationSet>
+          <AssociationSet Name="FK_Baskets_Orders" Association="Self.FK_Baskets_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Baskets" EntitySet="Baskets" />
+          </AssociationSet>
           <AssociationSet Name="FK_Cars_Models" Association="Self.FK_Cars_Models">
             <End Role="Models" EntitySet="Models" />
             <End Role="Cars" EntitySet="Cars" />
@@ -246,6 +262,7 @@
           <Property Name="Car" Type="Int32" />
           <Property Name="Order" Type="Int32" />
           <NavigationProperty Name="Cars" Relationship="Self.FK_Baskets_Cars" FromRole="Baskets" ToRole="Cars" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Baskets_Orders" FromRole="Baskets" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Brands">
           <Key>
@@ -294,6 +311,7 @@
           <Property Name="User" Type="Int32" />
           <Property Name="Ammount" Type="Double" />
           <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Baskets" Relationship="Self.FK_Baskets_Orders" FromRole="Orders" ToRole="Baskets" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Order_Users" FromRole="Orders" ToRole="Users" />
         </EntityType>
         <EntityType Name="Roles">
@@ -351,6 +369,18 @@
             </Principal>
             <Dependent Role="Baskets">
               <PropertyRef Name="Car" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Baskets_Orders">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="Baskets" Type="Self.Baskets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Baskets">
+              <PropertyRef Name="Order" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -451,6 +481,10 @@
           <EntitySet Name="Users" EntityType="Self.Users" />
           <AssociationSet Name="FK_Baskets_Cars" Association="Self.FK_Baskets_Cars">
             <End Role="Cars" EntitySet="Cars" />
+            <End Role="Baskets" EntitySet="Baskets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Baskets_Orders" Association="Self.FK_Baskets_Orders">
+            <End Role="Orders" EntitySet="Orders" />
             <End Role="Baskets" EntitySet="Baskets" />
           </AssociationSet>
           <AssociationSet Name="FK_Models_Brands" Association="Self.FK_Models_Brands">

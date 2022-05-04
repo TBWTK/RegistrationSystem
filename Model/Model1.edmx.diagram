@@ -4,18 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9b4f430f3381453589df6322a4caf0ab" Name="Diagram1" ZoomLevel="97">
-        <EntityTypeShape EntityType="TestDataBaseModel.Baskets" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+      <Diagram DiagramId="b26311669dba4efba490320878b25944" Name="Diagram1">
+        <EntityTypeShape EntityType="TestDataBaseModel.Baskets" Width="1.5" PointX="10.5" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDataBaseModel.Brands" Width="1.5" PointX="1.5" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDataBaseModel.Cars" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDataBaseModel.Genders" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDataBaseModel.Models" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestDataBaseModel.Orders" Width="1.5" PointX="8.25" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestDataBaseModel.Roles" Width="1.5" PointX="3.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestDataBaseModel.Orders" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestDataBaseModel.Roles" Width="1.5" PointX="3.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDataBaseModel.Statuses" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestDataBaseModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestDataBaseModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDataBaseModel.Users" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
         <AssociationConnector Association="TestDataBaseModel.FK_Baskets_Cars" ManuallyRouted="false" />
+        <AssociationConnector Association="TestDataBaseModel.FK_Baskets_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="TestDataBaseModel.FK_Models_Brands" ManuallyRouted="false" />
         <AssociationConnector Association="TestDataBaseModel.FK_Cars_Models" ManuallyRouted="false" />
         <AssociationConnector Association="TestDataBaseModel.FK_Cars_Statuses" ManuallyRouted="false" />

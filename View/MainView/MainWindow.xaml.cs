@@ -1,7 +1,4 @@
 ﻿using System.Windows;
-using RegistrationSystem.View.MainView.Account;
-using RegistrationSystem.View.MainView.AdminPatchingUsers;
-using RegistrationSystem.View.MainView.ProductCatalog;
 using System.Windows.Threading;
 using System;
 using RegistrationSystem.Model;
@@ -40,24 +37,29 @@ namespace RegistrationSystem.View.MainView
             }
 
 
-            PageChange.Content = new PersonalAccountUserControl(idUser);
+            PageChange.Content = new Account.PersonalAccountUserControl(idUser);
         }
 
         private void AccountPageChange(object sender, RoutedEventArgs e)
         {
-            PageChange.Content = new PersonalAccountUserControl(idUser);
+            PageChange.Content = new Account.PersonalAccountUserControl(idUser);
         }
 
         private void PatchingUsersPage(object sender, RoutedEventArgs e)
         {
-            PageChange.Content = new PatchingUserControl();
+            PageChange.Content = new AdminPatchingUsers.PatchingUserControl();
         }
 
         private void ProductCatalog(object sender, RoutedEventArgs e)
         {
-            PageChange.Content = new ProductCatalogUserControl(idUser);
+            PageChange.Content = new ProductCatalog.ProductCatalogUserControl(idUser);
 
             //PageChange.Content = new CreateNewProduct();
+        }
+
+        private void StatisticsPage(object sender, RoutedEventArgs e)
+        {
+            PageChange.Content = new Statistics.StatisticsUserControl();
         }
 
         private void Timer_Tick(object sender, EventArgs e)

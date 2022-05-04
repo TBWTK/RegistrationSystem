@@ -25,6 +25,7 @@ namespace RegistrationSystem.Model
         public Nullable<int> NameCar { get; set; }
         public Nullable<double> Price { get; set; }
         public byte[] PhotoCar { get; set; }
+
         public string ModelCar { get; set; }
         public string BrandCar { get; set; }
 

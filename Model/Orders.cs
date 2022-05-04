@@ -14,11 +14,19 @@ namespace RegistrationSystem.Model
     
     public partial class Orders
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Orders()
+        {
+            this.Baskets = new HashSet<Baskets>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> User { get; set; }
         public Nullable<double> Ammount { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Baskets> Baskets { get; set; }
         public virtual Users Users { get; set; }
     }
 }

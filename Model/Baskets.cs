@@ -19,5 +19,6 @@ namespace RegistrationSystem.Model
         public Nullable<int> Order { get; set; }
     
         public virtual Cars Cars { get; set; }
+        public virtual Orders Orders { get; set; }
     }
 }

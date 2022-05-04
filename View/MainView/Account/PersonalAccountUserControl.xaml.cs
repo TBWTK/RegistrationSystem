@@ -179,7 +179,7 @@ namespace RegistrationSystem.View.MainView.Account
             }
         }
 
-        private void BoxRoles_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BoxGender_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedIndex = BoxGender.SelectedIndex;
             Object selectedItem = BoxGender.SelectedItem;
@@ -194,11 +194,11 @@ namespace RegistrationSystem.View.MainView.Account
                     var us = context.Users.SingleOrDefault(x => x.Id == idUser);
                     if (us != null)
                     {
-                        foreach(var i in genders)
+                        foreach(var gender in genders)
                         {
-                            if(i.NameGender == choiceGender)
+                            if(gender.NameGender == choiceGender)
                             {
-                                us.Gender = i.Id;
+                                us.Gender = gender.Id;
                                 context.Entry(us).State = EntityState.Modified;
                                 context.SaveChanges();
                                 MessageBox.Show("Изменения прошли успешно");
