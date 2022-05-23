@@ -48,6 +48,7 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
                 cars = context.Cars.ToList();
                 brands = context.Brands.ToList();
                 models = context.Models.ToList();
+
             }
 
             BrandComboBox.ItemsSource = brands;
@@ -102,12 +103,10 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
             ButtonHadlerOneProductDisplay.Visibility = Visibility.Hidden;
             ButtonHadlerFourProductDisplay.Visibility = Visibility.Hidden;
             ClearSearchPanels();
-
-
         }
 
 
-        // Событие корзины
+        // Выбор товара
         private void ButtonChoice_Click(object sender, RoutedEventArgs e)
         {
             Cars curItem = (Cars)((ListBoxItem)ProductCatalog.ContainerFromElement((Button)sender)).Content;
@@ -224,7 +223,6 @@ namespace RegistrationSystem.View.MainView.ProductCatalog
                     var filtered = carsHandler.Where(u => u.Id >= IdCars[IndexItemCatalog] && u.Id <= IdCars[IdCars.Count() - 1]);
                     ProductCatalog.ItemsSource = filtered;
                 }
-
             }
         }
 

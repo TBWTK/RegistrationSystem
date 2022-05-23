@@ -1,5 +1,4 @@
-﻿
-using RegistrationSystem.Model;
+﻿using RegistrationSystem.Model;
 using System;
 using System.Linq;
 using System.Windows;

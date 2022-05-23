@@ -85,7 +85,10 @@ namespace RegistrationSystem.View.MainView.AdminPatchingUsers
         }
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var filtered = users.Where(users => users.Login.StartsWith(SearchTextBox.Text) || users.Name.StartsWith(SearchTextBox.Text) || users.LastName.StartsWith(SearchTextBox.Text) || users.SurName.StartsWith(SearchTextBox.Text));
+            var filtered = users.Where(users => users.Login.StartsWith(SearchTextBox.Text) 
+            || users.Name.StartsWith(SearchTextBox.Text) 
+            || users.LastName.StartsWith(SearchTextBox.Text) 
+            || users.SurName.StartsWith(SearchTextBox.Text));
             DataGridUsers.ItemsSource = filtered;
         }
 

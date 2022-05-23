@@ -18,7 +18,7 @@
                     <TextBlock Text="Цена мин/руб: " Style="{StaticResource styleTextBlock}" Margin="5 0"/>
                     <TextBlock Text="{Binding Path=Price}" Style="{StaticResource styleTextBlock}" Margin="5 0"/>
                 </StackPanel>
-                <Image x:Name="PhotoCarSource" Width="350" Height="200" Source="{Binding Path=PhotoCar}" Margin="5"/>
+                <Image x:Name="PhotoCarSource" Width="350" Height="200" Source="{Binding Path=Cars.PhotoCar}" Margin="5"/>
                 <Button x:Name="ButtonChoice" Content="Выбрать" Click="ButtonChoice_Click" Style="{StaticResource styleButton}"/>
             </StackPanel>
         </DataTemplate>
@@ -80,7 +80,7 @@
                 <RadioButton Grid.Column="3" x:Name="ListProductDisplay" Content="Список" Style="{StaticResource StyleRadioButton}" Width="150" Height="40" IsChecked="True" Click="ListProductDisplay_Click"/>
 
                 <StackPanel Grid.Column="5" Orientation="Vertical">
-                    <TextBlock x:Name="QuentytiProduct" Style="{StaticResource styleTextBlock}" Text="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="28"/>
+                     <TextBlock x:Name="QuentytiProduct" Style="{StaticResource styleTextBlock}" Text="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="28"/>
                     <Button x:Name="MoveToBasket"  Width="75" Height="75" Background="White" HorizontalAlignment="Center" Click="MoveToBasket_Click">
                         <Image Source="Image/cart.png"/>
                     </Button>
@@ -170,7 +170,6 @@
                         </ListBox>
                     </ScrollViewer>
                 </Grid>
-
             </Grid>
 
         </Grid>
@@ -195,7 +194,6 @@
 
                 </StackPanel>
 
-
                 <ListBox x:Name="BasketCatalog" ItemTemplate="{StaticResource listTemplateBasket}"
                          ScrollViewer.VerticalScrollBarVisibility="Visible">
                     <ListBox.ItemsPanel>
@@ -206,7 +204,6 @@
                 </ListBox>
 
             </StackPanel>
-
 
         </Grid>
     </Grid>
